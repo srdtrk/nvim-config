@@ -1,2 +1,2 @@
 require('config')
-require('plugins.lazy')
+require('plugins')
