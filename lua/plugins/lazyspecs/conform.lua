@@ -4,25 +4,31 @@ return {
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
     opts = {
+      formatters = {
+        forge_fmt = {
+          command = 'forge',
+          args = { 'fmt', '$FILENAME' },
+          stdin = false,
+        },
+      },
       formatters_by_ft = {
         lua = { 'stylua' },
-        go = { "goimports", "gofmt" },
-        rust = { "rustfmt", lsp_format = "fallback" },
+        go = { 'goimports', 'gofmt' },
+        rust = { 'rustfmt', lsp_format = 'fallback' },
+        solidity = { 'forge_fmt' },
       },
       -- If this is set, Conform will run the formatter on save.
       -- It will pass the table to conform.format().
       -- This can also be a function that returns the table.
       format_on_save = {
-        lsp_format = "fallback",
+        lsp_format = 'fallback',
         timeout_ms = 500,
       },
     },
     keys = {
       {
         '<leader>f',
-        function()
-          require('conform').format { async = true, lsp_format = 'fallback' }
-        end,
+        function() require('conform').format { async = true, lsp_format = 'fallback' } end,
         mode = '',
         desc = '[F]ormat buffer',
       },
