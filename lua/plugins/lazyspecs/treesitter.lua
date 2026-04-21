@@ -5,7 +5,50 @@ return { -- Highlight, edit, and navigate code
   branch = 'main',
   -- [[ Configure Treesitter ]] See `:help nvim-treesitter-intro`
   config = function()
-    local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+    local parsers = {
+      'bash',
+      'c',
+      'comment',
+      'css',
+      'diff',
+      'dockerfile',
+      'gitattributes',
+      'gitcommit',
+      'git_config',
+      'gitignore',
+      'git_rebase',
+      'go',
+      'gomod',
+      'gosum',
+      'gowork',
+      'html',
+      'hcl',
+      'ini',
+      'javascript',
+      'jsdoc',
+      'json',
+      'jsonc',
+      'lua',
+      'luadoc',
+      'markdown',
+      'markdown_inline',
+      'nix',
+      'python',
+      'query',
+      'regex',
+      'proto',
+      'rust',
+      'solidity',
+      'sql',
+      'terraform',
+      'toml',
+      'tsx',
+      'typescript',
+      'vim',
+      'vimdoc',
+      'xml',
+      'yaml',
+    }
     local ts = require('nvim-treesitter')
     ts.setup {}
     ts.install(parsers)
@@ -13,16 +56,16 @@ return { -- Highlight, edit, and navigate code
     local ts_features = vim.api.nvim_create_augroup('nvim-treesitter-features', { clear = true })
     vim.api.nvim_create_autocmd('FileType', {
       group = ts_features,
-      pattern = parsers,
+      pattern = '*',
       callback = function(event)
         -- enables syntax highlighting and other treesitter features
-        vim.treesitter.start(event.buf)
+        local started = pcall(vim.treesitter.start, event.buf)
         -- enables treesitter based folds
         -- for more info on folds see `:help folds`
         -- vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
         -- vim.wo[0][0].foldmethod = 'expr'
         -- enables treesitter based indentation
-        if vim.bo[event.buf].filetype ~= 'ruby' then
+        if started and vim.bo[event.buf].filetype ~= 'ruby' then
           vim.bo[event.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
         end
       end,
