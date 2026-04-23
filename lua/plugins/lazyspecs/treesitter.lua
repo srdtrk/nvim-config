@@ -25,6 +25,7 @@ return { -- Highlight, edit, and navigate code
       'hcl',
       'ini',
       'javascript',
+      'just',
       'jsdoc',
       'json',
       'jsonc',
