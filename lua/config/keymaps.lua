@@ -27,3 +27,31 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+
+-- Treesitter incremental selection (Neovim 0.12 builtin)
+local select = require 'vim.treesitter._select'
+
+local function select_parent()
+  if vim.treesitter.get_parser(nil, nil, { error = false }) then
+    select.select_parent(vim.v.count1)
+  else
+    vim.lsp.buf.selection_range(vim.v.count1)
+  end
+end
+
+local function select_parent_init()
+  vim.cmd.normal { 'v', bang = true }
+  select_parent()
+end
+
+local function select_child()
+  if vim.treesitter.get_parser(nil, nil, { error = false }) then
+    select.select_child(vim.v.count1)
+  else
+    vim.lsp.buf.selection_range(-vim.v.count1)
+  end
+end
+
+vim.keymap.set('x', '<C-Space>', select_parent, { desc = 'Select parent (outer) node' })
+vim.keymap.set('x', '<BS>', select_child, { desc = 'Select child (inner) node' })
+vim.keymap.set('n', '<C-Space>', select_parent_init, { desc = 'Init and select parent (outer) node' })
