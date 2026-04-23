@@ -28,7 +28,7 @@ return { -- Highlight, edit, and navigate code
       'just',
       'jsdoc',
       'json',
-      'jsonc',
+      'json5',
       'lua',
       'luadoc',
       'make',
@@ -54,6 +54,7 @@ return { -- Highlight, edit, and navigate code
     local ts = require('nvim-treesitter')
     ts.setup {}
     ts.install(parsers)
+    vim.treesitter.language.register('json5', 'jsonc')
 
     local ts_features = vim.api.nvim_create_augroup('nvim-treesitter-features', { clear = true })
     vim.api.nvim_create_autocmd('FileType', {
