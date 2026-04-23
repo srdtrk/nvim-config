@@ -31,6 +31,7 @@ return { -- Highlight, edit, and navigate code
       'jsonc',
       'lua',
       'luadoc',
+      'make',
       'markdown',
       'markdown_inline',
       'nix',
